@@ -1,3 +1,2 @@
 rootProject.name = 'ap-linux-wrapper-core'
-includeBuild('../processExecutor')
 
