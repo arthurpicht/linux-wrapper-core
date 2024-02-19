@@ -11,15 +11,15 @@ public class LinuxWrapperCoreRuntimeException extends RuntimeException {
         super(message);
     }
 
-    public LinuxWrapperCoreRuntimeException(ProcessExecutionException cause) {
+    public LinuxWrapperCoreRuntimeException(Exception cause) {
         super(cause);
     }
 
-    public LinuxWrapperCoreRuntimeException(String message, ProcessExecutionException cause) {
+    public LinuxWrapperCoreRuntimeException(String message, Exception cause) {
         super(message, cause);
     }
 
-    public LinuxWrapperCoreRuntimeException(String[] command, ProcessExecutionException cause) {
+    public LinuxWrapperCoreRuntimeException(String[] command, Exception cause) {
         super("Error executing command: '" + Strings.listing(Arrays.asList(command), ", " + "': " + cause.getMessage()), cause);
     }
 

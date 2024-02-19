@@ -1,50 +1,65 @@
 package de.arthurpicht.linuxWrapper;
 
-import de.arthurpicht.processExecutor.ProcessExecution;
-import de.arthurpicht.processExecutor.ProcessExecutionException;
-import de.arthurpicht.processExecutor.ProcessResultCollection;
+import de.arthurpicht.processExecutor.*;
+import de.arthurpicht.processExecutor.outputHandler.generalOutputHandler.GeneralStandardErrorHandler;
+import de.arthurpicht.processExecutor.outputHandler.generalOutputHandler.GeneralStandardOutHandler;
 import de.arthurpicht.utils.core.collection.Lists;
 import de.arthurpicht.utils.core.strings.Strings;
-import org.slf4j.Logger;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 public class Helper {
 
-    @SuppressWarnings({"OptionalUsedAsFieldOrParameterType", "OptionalIsPresent"})
-    public static void commandLogging(Optional<Logger> loggerOptional, boolean toConsole, String... command) {
+    public static void commandLogging(LoggingConfig loggingConfig, String... command) {
         List<String> commandList = Arrays.asList(command);
         String commandString = "> " + Strings.listing(commandList, " ");
-        if (loggerOptional.isPresent()) {
-            loggerOptional.get().info(commandString);
+        if (loggingConfig.hasLogger()) {
+            loggingConfig.logger.atLevel(loggingConfig.getLogLevelStd()).log(commandString);
         }
-        if (toConsole) {
+        if (loggingConfig.outputToConsole) {
             System.out.println(commandString);
         }
     }
 
-    public static void execute(String[] command, Loggable loggable) {
-        ProcessResultCollection result;
+//    public static ProcessResultCollection execute(String[] commands, LoggingConfig loggingConfig) throws ProcessExecutionException {
+//        GeneralStandardOutHandler stdOutHandler = new GeneralStandardOutHandler(loggingConfig.logger, loggingConfig.isOutputToConsole());
+//        GeneralStandardErrorHandler stdErrorHandler = new GeneralStandardErrorHandler(logger, toConsole);
+//        ProcessExecutor processExecutor = (new ProcessExecutorBuilder()).withCommands(commands).withStandardOutHandler(stdOutHandler).withStandardErrorHandler(stdErrorHandler).build();
+//        processExecutor.execute();
+//        return new ProcessResultCollection(processExecutor, stdOutHandler, stdErrorHandler);
+//    }
+
+    public static ProcessResultCollection execute(String[] command, LoggingConfig loggingConfig, boolean assertSuccess) {
+        StandardOutHandler standardOutHandler = loggingConfig.getGeneralStandardOutHandler();
+        StandardErrorHandler standardErrorHandler = loggingConfig.getGeneralStandardErrorHandler();
         try {
-            result = ProcessExecution.execute(
-                    loggable.getLogger(),
-                    loggable.isOutputToConsole(),
-                    command);
+            ProcessResultCollection result = ProcessExecution.execute(standardOutHandler, standardErrorHandler, command);
+            if (result.isSuccess()) {
+                return result;
+            } else {
+                if (assertSuccess) {
+                    throw Helper.createException(command, result);
+                } else {
+                    return result;
+                }
+            }
         } catch (ProcessExecutionException e) {
-            throw new RuntimeException("Process execution failed: " + e.getMessage(), e);
+            String commandString = Strings.listing(Lists.newArrayList(command), " ");
+            throw new LinuxWrapperCoreRuntimeException("Process execution of '" + commandString + "' failed: " + e.getMessage(), e);
         }
-        if (result.isFail()) throw createException(command, result);
     }
 
     public static LinuxWrapperCoreRuntimeException createException(String[] command, ProcessResultCollection result) {
         if (result.isSuccess()) throw new IllegalStateException("Process execution not failed.");
-        String commandString = Strings.listing(Lists.newArrayList(command), ", ");
+        String commandString = Strings.listing(Lists.newArrayList(command), " ");
         if (!result.getErrorOut().isEmpty()) {
-            return new LinuxWrapperCoreRuntimeException("Command exited with exit code: '" + commandString + "'. " + result.getErrorOut().get(0));
+            return new LinuxWrapperCoreRuntimeException(
+                    "Command failed with exit code " + result.getExitCode() + ": [" + commandString + "]. "
+                    + result.getErrorOut().get(0));
         } else {
-            return new LinuxWrapperCoreRuntimeException("Command exited with exit code: '" + commandString + "'.");
+            return new LinuxWrapperCoreRuntimeException(
+                    "Command failed with exit code " + result.getExitCode() + ": [" + commandString + "].");
         }
     }
 
