@@ -24,13 +24,15 @@ public class KnownHosts {
                 "-f", knownHostsConfig.getKnownHostsFile().toString(),
                 "-F", knownHostsConfig.getHost()
         };
-        Helper.commandLogging(knownHostsConfig);
+        Helper.commandLogging(command, knownHostsConfig);
         ProcessResultCollection result = Helper.execute(command, knownHostsConfig, false);
         return result.isSuccess() && !result.getStandardOut().isEmpty();
     }
 
     /**
      * Removes host from known_host file.
+     * Caution: If called for a known_hosts file that does not contain host, then a LinuxWrapperCoreRuntimeException
+     * is thrown.
      *
      * @param knownHostsConfig
      * @throws LinuxWrapperCoreRuntimeException
@@ -44,7 +46,7 @@ public class KnownHosts {
                 "-f", knownHostsConfig.getKnownHostsFile().toString(),
                 "-R", knownHostsConfig.getHost()
         };
-        Helper.commandLogging(knownHostsConfig);
+        Helper.commandLogging(command, knownHostsConfig);
         Helper.execute(command, knownHostsConfig, true);
     }
 
@@ -59,10 +61,8 @@ public class KnownHosts {
         String[] command = {
                 "ssh-keyscan",
                 "-H", knownHostsConfig.getHost(),
-//                ">>",
-//                knownHostsConfig.getKnownHostsFile().toString()
         };
-        Helper.commandLogging(knownHostsConfig, command);
+        Helper.commandLogging(command, knownHostsConfig);
         ProcessResultCollection result = Helper.execute(command, knownHostsConfig, true);
         List<String> linesToAdd = result.getStandardOut();
         try {

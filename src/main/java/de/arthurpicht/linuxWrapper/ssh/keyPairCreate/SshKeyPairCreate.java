@@ -13,8 +13,6 @@ public class SshKeyPairCreate {
 
     private final SshKeyPairCreateConfig sshKeyPairCreateConfig;
 
-//    private static final Path sshDir = FileUtils.getHomeDir().resolve(".ssh");
-
     public SshKeyPairCreate(SshKeyPairCreateConfig sshKeyPairCreateConfig) {
         this.sshKeyPairCreateConfig = sshKeyPairCreateConfig;
     }
@@ -22,7 +20,7 @@ public class SshKeyPairCreate {
     public void create() {
         assertTargetDir();
         String[] command = buildCommand();
-        Helper.commandLogging(this.sshKeyPairCreateConfig, command);
+        Helper.commandLogging(command, this.sshKeyPairCreateConfig);
         Helper.execute(command, this.sshKeyPairCreateConfig, true);
     }
 
@@ -45,16 +43,6 @@ public class SshKeyPairCreate {
         command.add(this.sshKeyPairCreateConfig.getKeyPath().toString());
         return Strings.toArray(command);
     }
-
-//    private void assureSshDir() {
-//        if (!FileUtils.isExistingDirectory(sshDir)) {
-//            try {
-//                Files.createDirectory(sshDir);
-//            } catch (IOException e) {
-//                throw new RuntimeException("Error on creating dir [" + sshDir + "]. " + e.getMessage(), e);
-//            }
-//        }
-//    }
 
     private void assertTargetDir() {
         Path dir = this.sshKeyPairCreateConfig.getKeyPath().getParent();

@@ -1,8 +1,6 @@
 package de.arthurpicht.linuxWrapper;
 
 import de.arthurpicht.processExecutor.*;
-import de.arthurpicht.processExecutor.outputHandler.generalOutputHandler.GeneralStandardErrorHandler;
-import de.arthurpicht.processExecutor.outputHandler.generalOutputHandler.GeneralStandardOutHandler;
 import de.arthurpicht.utils.core.collection.Lists;
 import de.arthurpicht.utils.core.strings.Strings;
 
@@ -11,7 +9,7 @@ import java.util.List;
 
 public class Helper {
 
-    public static void commandLogging(LoggingConfig loggingConfig, String... command) {
+    public static void commandLogging(String[] command, LoggingConfig loggingConfig) {
         List<String> commandList = Arrays.asList(command);
         String commandString = "> " + Strings.listing(commandList, " ");
         if (loggingConfig.hasLogger()) {
@@ -21,14 +19,6 @@ public class Helper {
             System.out.println(commandString);
         }
     }
-
-//    public static ProcessResultCollection execute(String[] commands, LoggingConfig loggingConfig) throws ProcessExecutionException {
-//        GeneralStandardOutHandler stdOutHandler = new GeneralStandardOutHandler(loggingConfig.logger, loggingConfig.isOutputToConsole());
-//        GeneralStandardErrorHandler stdErrorHandler = new GeneralStandardErrorHandler(logger, toConsole);
-//        ProcessExecutor processExecutor = (new ProcessExecutorBuilder()).withCommands(commands).withStandardOutHandler(stdOutHandler).withStandardErrorHandler(stdErrorHandler).build();
-//        processExecutor.execute();
-//        return new ProcessResultCollection(processExecutor, stdOutHandler, stdErrorHandler);
-//    }
 
     public static ProcessResultCollection execute(String[] command, LoggingConfig loggingConfig, boolean assertSuccess) {
         StandardOutHandler standardOutHandler = loggingConfig.getGeneralStandardOutHandler();
