@@ -4,7 +4,7 @@ import de.arthurpicht.linuxWrapper.AbstractWrapperConfigBuilder;
 
 import java.nio.file.Path;
 
-public class PlaybookExecuteConfigBuilder extends AbstractWrapperConfigBuilder {
+public class PlaybookExecuteConfigBuilder extends AbstractWrapperConfigBuilder<PlaybookExecuteConfigBuilder> {
 
     private Path playbook = null;
 

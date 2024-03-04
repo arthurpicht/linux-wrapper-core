@@ -5,7 +5,7 @@ import de.arthurpicht.utils.io.nio2.FileUtils;
 
 import java.nio.file.Path;
 
-public class KnownHostsConfigBuilder extends AbstractWrapperConfigBuilder {
+public class KnownHostsConfigBuilder extends AbstractWrapperConfigBuilder<KnownHostsConfigBuilder> {
 
     private Path knownHostsFile = FileUtils.getHomeDir().resolve(".ssh/known_hosts").toAbsolutePath();
 

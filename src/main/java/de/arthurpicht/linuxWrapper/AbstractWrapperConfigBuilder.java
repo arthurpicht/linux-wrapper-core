@@ -3,7 +3,7 @@ package de.arthurpicht.linuxWrapper;
 import org.slf4j.Logger;
 import org.slf4j.event.Level;
 
-public abstract class AbstractWrapperConfigBuilder {
+public class AbstractWrapperConfigBuilder<T extends AbstractWrapperConfigBuilder<T>> {
 
     protected Logger logger = null;
     protected Level logLevelStd = Level.INFO;
@@ -13,33 +13,38 @@ public abstract class AbstractWrapperConfigBuilder {
     /**
      * Default: No logging.
      */
-    public AbstractWrapperConfigBuilder withLogger(Logger logger) {
+    public T withLogger(Logger logger) {
         this.logger = logger;
-        return this;
+        return getThis();
     }
 
     /**
      * Default: INFO
      */
-    public AbstractWrapperConfigBuilder withLogLevelStd(Level logLevelStd) {
+    public T withLogLevelStd(Level logLevelStd) {
         this.logLevelStd = logLevelStd;
-        return this;
+        return getThis();
     }
 
     /**
      * Default: ERROR
      */
-    public AbstractWrapperConfigBuilder withLogLevelError(Level logLevelError) {
+    public T withLogLevelError(Level logLevelError) {
         this.logLevelError = logLevelError;
-        return this;
+        return getThis();
     }
 
     /**
      * Default: No output to console.
      */
-    public AbstractWrapperConfigBuilder withOutputToConsole(boolean outputToConsole) {
+    public T withOutputToConsole(boolean outputToConsole) {
         this.outputToConsole = outputToConsole;
-        return this;
+        return getThis();
+    }
+
+    @SuppressWarnings("unchecked")
+    public T getThis() {
+        return (T) this;
     }
 
 }

@@ -7,7 +7,7 @@ import org.slf4j.event.Level;
 import java.nio.file.Path;
 
 @SuppressWarnings({"unused"})
-public class SshKeyPairCreateBuilder extends AbstractWrapperConfigBuilder {
+public class SshKeyPairCreateBuilder extends AbstractWrapperConfigBuilder<SshKeyPairCreateBuilder> {
 
     private SshKeyPairCreateConfig.KeyType keyType = SshKeyPairCreateConfig.KeyType.ED25519;
     private Integer length = null;
