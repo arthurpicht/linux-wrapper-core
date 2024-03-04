@@ -1,12 +1,12 @@
 package de.arthurpicht.linuxWrapper.ssh.knownHosts;
 
-import de.arthurpicht.linuxWrapper.LoggingConfig;
+import de.arthurpicht.linuxWrapper.AbstractWrapperConfig;
 import org.slf4j.Logger;
 import org.slf4j.event.Level;
 
 import java.nio.file.Path;
 
-public class KnownHostsConfig extends LoggingConfig {
+public class KnownHostsConfig extends AbstractWrapperConfig {
 
     private final String host;
     private final Path knownHostsFile;

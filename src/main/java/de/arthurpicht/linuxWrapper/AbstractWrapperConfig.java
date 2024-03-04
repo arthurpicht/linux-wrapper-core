@@ -5,14 +5,14 @@ import de.arthurpicht.processExecutor.outputHandler.generalOutputHandler.General
 import org.slf4j.Logger;
 import org.slf4j.event.Level;
 
-public abstract class LoggingConfig {
+public abstract class AbstractWrapperConfig {
 
     protected final Logger logger;
     protected final Level logLevelStd;
     protected final Level logLevelError;
     protected final boolean outputToConsole;
 
-    public LoggingConfig(Logger logger, Level logLevelStd, Level logLevelError, boolean outputToConsole) {
+    public AbstractWrapperConfig(Logger logger, Level logLevelStd, Level logLevelError, boolean outputToConsole) {
         this.logger = logger;
         this.logLevelStd = logLevelStd;
         this.logLevelError = logLevelError;

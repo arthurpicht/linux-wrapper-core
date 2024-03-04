@@ -1,12 +1,12 @@
 package de.arthurpicht.linuxWrapper.ssh.keyPairCreate;
 
-import de.arthurpicht.linuxWrapper.LoggingConfig;
+import de.arthurpicht.linuxWrapper.AbstractWrapperConfig;
 import org.slf4j.Logger;
 import org.slf4j.event.Level;
 
 import java.nio.file.Path;
 
-public class SshKeyPairCreateConfig extends LoggingConfig {
+public class SshKeyPairCreateConfig extends AbstractWrapperConfig {
 
     public enum KeyType { ED25519, RSA}
 

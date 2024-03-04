@@ -1,21 +1,18 @@
 package de.arthurpicht.linuxWrapper.ssh.keyPairCreate;
 
+import de.arthurpicht.linuxWrapper.AbstractWrapperConfigBuilder;
 import org.slf4j.Logger;
 import org.slf4j.event.Level;
 
 import java.nio.file.Path;
 
 @SuppressWarnings({"unused"})
-public class SshKeyPairCreateBuilder {
+public class SshKeyPairCreateBuilder extends AbstractWrapperConfigBuilder {
 
     private SshKeyPairCreateConfig.KeyType keyType = SshKeyPairCreateConfig.KeyType.ED25519;
     private Integer length = null;
     private String comment = null;
     private String password = "";
-    private Logger logger = null;
-    private Level logLevelStd = Level.INFO;
-    private Level logLevelError = Level.ERROR;
-    private boolean outputToConsole = false;
 
     /**
      * Type of SSH key. Default: ED25519.
@@ -46,38 +43,6 @@ public class SshKeyPairCreateBuilder {
      */
     public SshKeyPairCreateBuilder withPassword(String password) {
         this.password = password;
-        return this;
-    }
-
-    /**
-     * Default: No logging.
-     */
-    public SshKeyPairCreateBuilder withLogger(Logger logger) {
-        this.logger = logger;
-        return this;
-    }
-
-    /**
-     * Default: INFO
-     */
-    public SshKeyPairCreateBuilder withLogLevelStd(Level logLevelStd) {
-        this.logLevelStd = logLevelStd;
-        return this;
-    }
-
-    /**
-     * Default: ERROR
-     */
-    public SshKeyPairCreateBuilder withLogLevelError(Level logLevelError) {
-        this.logLevelError = logLevelError;
-        return this;
-    }
-
-    /**
-     * Default: No output to console.
-     */
-    public SshKeyPairCreateBuilder withOutputToConsole(boolean outputToConsole) {
-        this.outputToConsole = outputToConsole;
         return this;
     }
 
