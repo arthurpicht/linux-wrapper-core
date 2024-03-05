@@ -23,7 +23,7 @@ public class PlaybookExecute {
         String playbookFileName = this.playbookExecuteConfig.getPlaybook().getFileName().toString();
         String[] command = buildCommand(playbookFileName);
         Helper.commandLogging(workingDir.toString(), command, this.playbookExecuteConfig);
-        Helper.execute(command, this.playbookExecuteConfig, true);
+        Helper.execute(workingDir, command, this.playbookExecuteConfig, true);
     }
 
     private String[] buildCommand(String playbookFileName) {
