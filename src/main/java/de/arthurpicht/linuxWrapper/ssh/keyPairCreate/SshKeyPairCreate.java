@@ -1,6 +1,6 @@
 package de.arthurpicht.linuxWrapper.ssh.keyPairCreate;
 
-import de.arthurpicht.linuxWrapper.Helper;
+import de.arthurpicht.linuxWrapper.ExecutionHelper;
 import de.arthurpicht.linuxWrapper.LinuxWrapperCoreRuntimeException;
 import de.arthurpicht.utils.core.strings.Strings;
 import de.arthurpicht.utils.io.nio2.FileUtils;
@@ -20,8 +20,8 @@ public class SshKeyPairCreate {
     public void create() {
         assertTargetDir();
         String[] command = buildCommand();
-        Helper.commandLogging(command, this.sshKeyPairCreateConfig);
-        Helper.execute(command, this.sshKeyPairCreateConfig, true);
+        ExecutionHelper.commandLogging(command, this.sshKeyPairCreateConfig);
+        ExecutionHelper.execute(command, this.sshKeyPairCreateConfig, true);
     }
 
     private String[] buildCommand() {

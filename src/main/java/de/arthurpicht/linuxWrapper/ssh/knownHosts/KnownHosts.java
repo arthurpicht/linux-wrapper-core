@@ -1,6 +1,6 @@
 package de.arthurpicht.linuxWrapper.ssh.knownHosts;
 
-import de.arthurpicht.linuxWrapper.Helper;
+import de.arthurpicht.linuxWrapper.ExecutionHelper;
 import de.arthurpicht.linuxWrapper.LinuxWrapperCoreRuntimeException;
 import de.arthurpicht.processExecutor.ProcessResultCollection;
 import de.arthurpicht.utils.io.file.TextFileUtils;
@@ -24,8 +24,8 @@ public class KnownHosts {
                 "-f", knownHostsConfig.getKnownHostsFile().toString(),
                 "-F", knownHostsConfig.getHost()
         };
-        Helper.commandLogging(command, knownHostsConfig);
-        ProcessResultCollection result = Helper.execute(command, knownHostsConfig, false);
+        ExecutionHelper.commandLogging(command, knownHostsConfig);
+        ProcessResultCollection result = ExecutionHelper.execute(command, knownHostsConfig, false);
         return result.isSuccess() && !result.getStandardOut().isEmpty();
     }
 
@@ -46,8 +46,8 @@ public class KnownHosts {
                 "-f", knownHostsConfig.getKnownHostsFile().toString(),
                 "-R", knownHostsConfig.getHost()
         };
-        Helper.commandLogging(command, knownHostsConfig);
-        Helper.execute(command, knownHostsConfig, true);
+        ExecutionHelper.commandLogging(command, knownHostsConfig);
+        ExecutionHelper.execute(command, knownHostsConfig, true);
     }
 
     /**
@@ -62,8 +62,8 @@ public class KnownHosts {
                 "ssh-keyscan",
                 "-H", knownHostsConfig.getHost(),
         };
-        Helper.commandLogging(command, knownHostsConfig);
-        ProcessResultCollection result = Helper.execute(command, knownHostsConfig, true);
+        ExecutionHelper.commandLogging(command, knownHostsConfig);
+        ProcessResultCollection result = ExecutionHelper.execute(command, knownHostsConfig, true);
         List<String> linesToAdd = result.getStandardOut();
         try {
             TextFileUtils.appendLines(knownHostsConfig.getKnownHostsFile(), linesToAdd);

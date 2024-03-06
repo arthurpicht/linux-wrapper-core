@@ -8,7 +8,7 @@ import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 
-public class Helper {
+public class ExecutionHelper {
 
     public static void commandLogging(String[] command, AbstractWrapperConfig abstractWrapperConfig) {
         commandLogging("", command, abstractWrapperConfig);
@@ -34,7 +34,7 @@ public class Helper {
                 return result;
             } else {
                 if (assertSuccess) {
-                    throw Helper.createException(command, result);
+                    throw ExecutionHelper.createException(command, result);
                 } else {
                     return result;
                 }
@@ -61,7 +61,7 @@ public class Helper {
                 return result;
             } else {
                 if (assertSuccess) {
-                    throw Helper.createException(command, result);
+                    throw ExecutionHelper.createException(command, result);
                 } else {
                     return result;
                 }
@@ -72,7 +72,22 @@ public class Helper {
         }
     }
 
-    public static LinuxWrapperCoreRuntimeException createException(String[] command, ProcessResultCollection result) {
+    public static void executeInteractively(String[] command, boolean assertSuccess) {
+        try {
+            ProcessExecutor processExecutor = new ProcessExecutorBuilder()
+                    .withCommands(command)
+                    .asInteractive()
+                    .build();
+            processExecutor.execute();
+            if (processExecutor.getExitCode() != 0 && assertSuccess)
+                throw ExecutionHelper.createException(command, processExecutor.getExitCode());
+        } catch (ProcessExecutionException e) {
+            String commandString = Strings.listing(Lists.newArrayList(command), " ");
+            throw new LinuxWrapperCoreRuntimeException("Process execution of '" + commandString + "' failed: " + e.getMessage(), e);
+        }
+    }
+
+    private static LinuxWrapperCoreRuntimeException createException(String[] command, ProcessResultCollection result) {
         if (result.isSuccess()) throw new IllegalStateException("Process execution not failed.");
         String commandString = Strings.listing(Lists.newArrayList(command), " ");
         if (!result.getErrorOut().isEmpty()) {
@@ -83,6 +98,12 @@ public class Helper {
             return new LinuxWrapperCoreRuntimeException(
                     "Command failed with exit code " + result.getExitCode() + ": [" + commandString + "].");
         }
+    }
+
+    private static LinuxWrapperCoreRuntimeException createException(String[] command, int exitCode) {
+        String commandString = Strings.listing(Lists.newArrayList(command), " ");
+        return new LinuxWrapperCoreRuntimeException(
+                "Command failed with exit code " + exitCode + ": [" + commandString + "].");
     }
 
 }

@@ -1,6 +1,6 @@
 package de.arthurpicht.linuxWrapper.ansible.playbook;
 
-import de.arthurpicht.linuxWrapper.Helper;
+import de.arthurpicht.linuxWrapper.ExecutionHelper;
 import de.arthurpicht.linuxWrapper.LinuxWrapperCoreRuntimeException;
 import de.arthurpicht.utils.core.strings.Strings;
 import de.arthurpicht.utils.io.nio2.FileUtils;
@@ -22,8 +22,8 @@ public class PlaybookExecute {
         Path workingDir = this.playbookExecuteConfig.getPlaybook().toAbsolutePath().getParent();
         String playbookFileName = this.playbookExecuteConfig.getPlaybook().getFileName().toString();
         String[] command = buildCommand(playbookFileName);
-        Helper.commandLogging(workingDir.toString(), command, this.playbookExecuteConfig);
-        Helper.execute(workingDir, command, this.playbookExecuteConfig, true);
+        ExecutionHelper.commandLogging(workingDir.toString(), command, this.playbookExecuteConfig);
+        ExecutionHelper.execute(workingDir, command, this.playbookExecuteConfig, true);
     }
 
     private String[] buildCommand(String playbookFileName) {
