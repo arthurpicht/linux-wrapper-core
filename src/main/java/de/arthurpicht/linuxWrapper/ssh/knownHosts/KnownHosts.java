@@ -9,7 +9,7 @@ import de.arthurpicht.utils.io.nio2.FileUtils;
 import java.io.IOException;
 import java.util.List;
 
-@SuppressWarnings("JavadocDeclaration")
+@SuppressWarnings({"JavadocDeclaration", "unused"})
 public class KnownHosts {
 
     /**

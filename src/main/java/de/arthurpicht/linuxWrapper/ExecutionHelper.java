@@ -4,6 +4,7 @@ import de.arthurpicht.processExecutor.*;
 import de.arthurpicht.utils.core.collection.Lists;
 import de.arthurpicht.utils.core.strings.Strings;
 
+import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
@@ -71,6 +72,27 @@ public class ExecutionHelper {
             throw new LinuxWrapperCoreRuntimeException("Process execution of '" + commandString + "' failed: " + e.getMessage(), e);
         }
     }
+
+    public static ProcessResultCollection execute(InputStream inputStream, String[] command, AbstractWrapperConfig abstractWrapperConfig, boolean assertSuccess) {
+        StandardOutHandler standardOutHandler = abstractWrapperConfig.getGeneralStandardOutHandler();
+        StandardErrorHandler standardErrorHandler = abstractWrapperConfig.getGeneralStandardErrorHandler();
+        try {
+            ProcessResultCollection result = ProcessExecution.execute(inputStream, standardOutHandler, standardErrorHandler, command);
+            if (result.isSuccess()) {
+                return result;
+            } else {
+                if (assertSuccess) {
+                    throw ExecutionHelper.createException(command, result);
+                } else {
+                    return result;
+                }
+            }
+        } catch (ProcessExecutionException e) {
+            String commandString = Strings.listing(Lists.newArrayList(command), " ");
+            throw new LinuxWrapperCoreRuntimeException("Process execution of '" + commandString + "' failed: " + e.getMessage(), e);
+        }
+    }
+
 
     public static void executeInteractively(String[] command, boolean assertSuccess) {
         try {

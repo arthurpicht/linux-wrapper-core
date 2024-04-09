@@ -6,6 +6,7 @@ import java.nio.file.Path;
 
 import static de.arthurpicht.utils.core.assertion.MethodPreconditions.assertArgumentNotNull;
 
+@SuppressWarnings("unused")
 public class PlaybookExecuteBuilder extends AbstractWrapperConfigBuilder<PlaybookExecuteBuilder> {
 
     public PlaybookExecute build(Path playbook) {

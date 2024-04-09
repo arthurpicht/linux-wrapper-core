@@ -4,6 +4,7 @@ import de.arthurpicht.processExecutor.ProcessExecution;
 import de.arthurpicht.processExecutor.ProcessExecutionException;
 import de.arthurpicht.processExecutor.ProcessResultCollection;
 
+@SuppressWarnings("unused")
 public class Ps {
 
     public static ProcessResultCollection execute(int processId) {

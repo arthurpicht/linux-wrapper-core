@@ -11,7 +11,14 @@ public class KnownHostsConfig extends AbstractWrapperConfig {
     private final String host;
     private final Path knownHostsFile;
 
-    public KnownHostsConfig(String host, Path knownHostsFile, Logger logger, Level logLevelStd, Level logLevelError, boolean outputToConsole) {
+    public KnownHostsConfig(
+            String host,
+            Path knownHostsFile,
+            Logger logger,
+            Level logLevelStd,
+            Level logLevelError,
+            boolean outputToConsole
+    ) {
         super(logger, logLevelStd, logLevelError, outputToConsole);
         this.host = host;
         this.knownHostsFile = knownHostsFile;

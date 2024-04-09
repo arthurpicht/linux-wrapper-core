@@ -7,6 +7,7 @@ import de.arthurpicht.processExecutor.ProcessResultCollection;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class PsWax {
 
     public static List<Process> execute() {

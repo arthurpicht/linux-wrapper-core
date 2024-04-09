@@ -9,6 +9,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class PlaybookExecute {
 
     private final PlaybookExecuteConfig playbookExecuteConfig;
