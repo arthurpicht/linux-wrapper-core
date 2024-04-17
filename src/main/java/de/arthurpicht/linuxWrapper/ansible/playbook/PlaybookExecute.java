@@ -30,6 +30,10 @@ public class PlaybookExecute {
     private String[] buildCommand(String playbookFileName) {
         List<String> command = new ArrayList<>();
         command.add("ansible-playbook");
+        if (this.playbookExecuteConfig.hasInventory()) {
+            command.add("-i");
+            command.add(this.playbookExecuteConfig.getInventory().toAbsolutePath().toString());
+        }
         command.add(playbookFileName);
         return Strings.toArray(command);
     }

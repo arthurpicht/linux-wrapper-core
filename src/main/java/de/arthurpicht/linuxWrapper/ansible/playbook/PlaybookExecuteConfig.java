@@ -9,9 +9,11 @@ import java.nio.file.Path;
 public final class PlaybookExecuteConfig extends AbstractWrapperConfig {
 
     private final Path playbook;
+    private final Path inventory;
 
     public PlaybookExecuteConfig(
             Path playbook,
+            Path inventory,
             Logger logger,
             Level logLevelStd,
             Level logLevelError,
@@ -19,10 +21,20 @@ public final class PlaybookExecuteConfig extends AbstractWrapperConfig {
 
         super(logger, logLevelStd, logLevelError, outputToConsole);
         this.playbook = playbook;
+        this.inventory = inventory;
     }
 
     public Path getPlaybook() {
         return playbook;
+    }
+
+    public boolean hasInventory() {
+        return this.inventory != null;
+    }
+
+    public Path getInventory() {
+        if (this.inventory == null) throw new IllegalStateException("Parameter [inventory] not set.");
+        return inventory;
     }
 
 }

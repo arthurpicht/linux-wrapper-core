@@ -3,7 +3,7 @@ plugins {
 }
 
 group = 'com.github.arthurpicht'
-version = '0.0.4'
+version = '0.0.5-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -11,7 +11,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.arthurpicht:utils-core:1.13.0'
+    implementation 'com.github.arthurpicht:utils-core:1.13.1'
     implementation 'com.github.arthurpicht:utils-io:0.0.20'
     implementation 'com.github.arthurpicht:processExecutor:0.0.6'
 
