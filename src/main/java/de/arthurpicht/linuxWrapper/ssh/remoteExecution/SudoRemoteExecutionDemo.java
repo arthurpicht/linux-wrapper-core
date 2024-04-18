@@ -3,21 +3,21 @@ package de.arthurpicht.linuxWrapper.ssh.remoteExecution;
 import de.arthurpicht.processExecutor.ProcessResultCollection;
 import de.arthurpicht.utils.core.strings.Strings;
 
-public class RemoteExecutionDemo {
+public class SudoRemoteExecutionDemo {
 
     public static void main(String[] args) {
 
-        RemoteExecutionConfig remoteExecutionConfig = new RemoteExecutionConfigBuilder()
+        SudoRemoteExecutionConfig sudoRemoteExecutionConfig = new SudoRemoteExecutionConfigBuilder()
                 .withUser("username")
                 .withHost("192.168.99.10")
-                .addCommand("echo \"Hello world!\"")
-                .addCommand("echo \"something different\" >> my_file.txt")
-                .addCommand("git config --global http.proxy 'http://user:b!oese@192.168.77.77:8080'")
+                .withCommand("echo \"test1\"; echo \"test2\"")
+                .withSudoPassword("secret")
+                .withOutputToConsole(true)
                 .build();
 
         ProcessResultCollection processResultCollection;
         try {
-            processResultCollection = RemoteExecution.execute(remoteExecutionConfig);
+            processResultCollection = SudoRemoteExecution.execute(sudoRemoteExecutionConfig);
 
             System.out.println("success: " + processResultCollection.isSuccess());
             System.out.println("ExitCode: " + processResultCollection.getExitCode());
